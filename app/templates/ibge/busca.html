@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Consulta IBGE{% endblock %}
+
+{% block content %}
+<div class="ibge-container">
+    <h1>Consulta de Código IBGE</h1>
+    
+    <div class="box">
+        <h3>Atualizar Dados</h3>
+        <form action="{{ url_for('ibge.atualizar') }}" method="POST">
+            <button type="submit" class="btn btn-secondary">↻ Atualizar Lista de Municípios</button>
+        </form>
+        
+    </div>
+    
+    <div class="box">
+        <h3>Consultar Município</h3>
+        <form method="POST" action="{{ url_for('ibge.busca') }}">
+            <div class="search-form">
+                <input type="text" name="municipio" placeholder="Ex: Florianópolis" required>
+                <button type="submit" class="btn btn-primary">🔍 Buscar</button>
+            </div>
+        </form>
+        
+        {% if resultado %}
+        <div class="result">
+            <p><strong>Código IBGE:</strong> {{ resultado.codigo }}</p>
+            <p><strong>Município:</strong> {{ resultado.nome }}</p>
+            <p><strong>UF:</strong> {{ resultado.uf }}</p>
+        </div>
+        {% endif %}
+        
+        {% if mensagem %}
+        <div class="{{ 'success' if mensagem.startswith('Lista') else 'error' }}">{{ mensagem }}</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

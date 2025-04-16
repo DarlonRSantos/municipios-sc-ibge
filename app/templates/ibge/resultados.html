@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Resultado da Consulta - Sistema IBGE{% endblock %}
+
+{% block content %}
+<div class="results-container">
+    <h1>Resultado da Consulta</h1>
+    
+    {% if resultado %}
+    <div class="result-details">
+        <p><strong>Código IBGE:</strong> {{ resultado.codigo }}</p>
+        <p><strong>Município:</strong> {{ resultado.nome }}</p>
+        <p><strong>UF:</strong> {{ resultado.uf }}</p>
+    </div>
+    {% else %}
+    <div class="no-results">
+        <p>Nenhum resultado encontrado.</p>
+    </div>
+    {% endif %}
+    
+    <div class="actions">
+        <a href="{{ url_for('ibge.busca') }}" class="btn btn-secondary">Nova Consulta</a>
+    </div>
+</div>
+{% endblock %}

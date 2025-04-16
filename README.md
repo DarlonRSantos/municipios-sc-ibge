@@ -35,6 +35,5 @@ Este projeto permite consultar dados de municípios do estado de Santa Catarina 
 
 1. Clone o repositório:
 
-   
    git clone https://github.com/DarlonRSantos/consulta-municipios-ibge.git
    cd consulta-municipios-ibge
