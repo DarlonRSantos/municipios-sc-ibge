@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Sistema IBGE{% endblock %}</title>
+    <title>{% block title %}Sistema IBGE - LAB K8S{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     {% block head %}{% endblock %}
 </head>
@@ -11,7 +11,7 @@
     <header>
         <nav>
             <div class="container">
-                <div class="logo">Sistema IBGE</div>
+                <div class="logo">Sistema IBGE - LAB K8S</div>
                 <ul class="menu">
                     {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('ibge.busca') }}">Busca</a></li>
@@ -41,7 +41,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 - Sistema de Consulta IBGE</p>
+            <p>&copy; 2025 - Sistema de Consulta IBGE - Nexus Vision Informatica</p>
         </div>
     </footer>
 </body>

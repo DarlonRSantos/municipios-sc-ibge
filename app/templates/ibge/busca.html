@@ -5,15 +5,66 @@
 {% block content %}
 <div class="ibge-container">
     <h1>Consulta de Código IBGE</h1>
-    
-    <div class="box">
-        <h3>Atualizar Dados</h3>
-        <form action="{{ url_for('ibge.atualizar') }}" method="POST">
-            <button type="submit" class="btn btn-secondary">↻ Atualizar Lista de Municípios</button>
-        </form>
-        
-    </div>
-    
+
+ <div class="box">
+    <h3>Atualizar Dados</h3>
+    <form method="POST" action="{{ url_for('ibge.atualizar') }}">
+        <div class="mb-4">
+            <label for="uf" class="form-label fw-semibold">
+                <i class="bi bi-geo-alt-fill me-1"></i> Selecione o Estado (UF):
+            </label>
+            <div class="input-group shadow-sm">
+                <span class="input-group-text bg-white border-primary">
+                    <i class="bi bi-globe-americas text-primary"></i>
+                </span>
+                <select class="form-select border-primary rounded-end" name="uf" id="uf" required>
+                    <option value="" selected disabled>-- Escolha a UF --</option>
+                    <optgroup label="Região Norte">
+                        <option value="AC">Acre</option>
+                        <option value="AP">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="PA">Pará</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="TO">Tocantins</option>
+                    </optgroup>
+                    <optgroup label="Região Nordeste">
+                        <option value="AL">Alagoas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="PB">Paraíba</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="SE">Sergipe</option>
+                    </optgroup>
+                    <optgroup label="Região Centro-Oeste">
+                        <option value="DF">Distrito Federal</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                    </optgroup>
+                    <optgroup label="Região Sudeste">
+                        <option value="ES">Espírito Santo</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="SP">São Paulo</option>
+                    </optgroup>
+                    <optgroup label="Região Sul">
+                        <option value="PR">Paraná</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="SC">Santa Catarina</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            <i class="bi bi-arrow-clockwise me-1"></i> Atualizar Municípios
+        </button>
+    </form>
+</div>
+
     <div class="box">
         <h3>Consultar Município</h3>
         <form method="POST" action="{{ url_for('ibge.busca') }}">
@@ -22,7 +73,7 @@
                 <button type="submit" class="btn btn-primary">🔍 Buscar</button>
             </div>
         </form>
-        
+
         {% if resultado %}
         <div class="result">
             <p><strong>Código IBGE:</strong> {{ resultado.codigo }}</p>
@@ -30,7 +81,7 @@
             <p><strong>UF:</strong> {{ resultado.uf }}</p>
         </div>
         {% endif %}
-        
+
         {% if mensagem %}
         <div class="{{ 'success' if mensagem.startswith('Lista') else 'error' }}">{{ mensagem }}</div>
         {% endif %}

@@ -1,33 +1,34 @@
 import requests
-import os
+import uuid
 from flask import current_app
+from app.ibge.models import Municipio, db
 
-ARQUIVO_MUNICIPIOS = 'municipios.txt'
-UF_PADRAO = 'SC'  # Estado padrão para consulta
+def buscar_municipios_ibge(uf):
+    url = f'https://servicodados.ibge.gov.br/api/v1/localidades/estados/{uf}/municipios'
 
-def buscar_municipios_ibge():
-    """Busca os municípios da API do IBGE e salva no arquivo"""
     try:
-        print("Conectando ao IBGE...")
-        url = f'https://servicodados.ibge.gov.br/api/v1/localidades/estados/{UF_PADRAO}/municipios'
-        response = requests.get(url, timeout=10)
+        response = requests.get(url)
         response.raise_for_status()
-        
-        municipios = []
-        for municipio in response.json():
-            municipios.append(f"{municipio['id']}: {municipio['nome']}")
-        
-        # Criar o diretório para o arquivo se não existir
-        os.makedirs(os.path.dirname(os.path.join(current_app.root_path, 'ibge', ARQUIVO_MUNICIPIOS)), exist_ok=True)
-        
-        # Salvar dados em um arquivo
-        with open(os.path.join(current_app.root_path, 'ibge', ARQUIVO_MUNICIPIOS), 'w', encoding='utf-8') as f:
-            f.write('\n'.join(municipios))
-        
-        msg = f"Lista atualizada! {len(municipios)} municípios de {UF_PADRAO} salvos."
-        print(msg)
-        return True, msg
+        dados = response.json()
+
+        for municipio in dados:
+            codigo_ibge = municipio['id']
+            nome = municipio['nome']
+            uf_sigla = municipio['microrregiao']['mesorregiao']['UF']['sigla']
+
+            existente = db.session.query(Municipio).filter_by(codigo_ibge=codigo_ibge).first()
+            if not existente:
+                novo = Municipio(
+                    id=str(uuid.uuid4()),
+                    nome=nome,
+                    codigo_ibge=codigo_ibge,
+                    uf=uf_sigla
+                )
+                db.session.add(novo)
+
+        db.session.commit()
+        return True, f"{len(dados)} municípios da UF {uf} foram salvos com sucesso."
+    
     except Exception as e:
-        msg = f"Erro ao acessar IBGE: {str(e)}"
-        print(msg)
-        return False, msg
+        db.session.rollback()
+        return False, f"Erro ao buscar municípios: {e}"
