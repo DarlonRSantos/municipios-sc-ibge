@@ -1,0 +1,11 @@
+namespace: qa
+resources:
+  - ../../base
+patches:
+  - target:
+      kind: Deployment
+      name: mysql
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/env/1/value
+        value: ibge_app_qa

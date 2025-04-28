@@ -1,15 +1,14 @@
 # Consulta Municípios IBGE - Santa Catarina 🏙️
 
-Este projeto permite consultar dados de municípios do estado de Santa Catarina usando a API do IBGE. Ele oferece uma interface web simples para realizar buscas pelo nome do município, retornando o código IBGE correspondente. Também gera um arquivo `.txt` com os resultados.
-
+Este projeto permite consultar dados de municípios do estado de Santa Catarina usando a API do IBGE. Ele oferece uma interface web simples para realizar buscas pelo nome do município, retornando o código IBGE correspondente. Também grava os resutados da consultas na API no banco de dados.
 ---
 
 ## 📌 Funcionalidades
 
-- Consulta de municípios de SC pela API do IBGE
+- Consulta de municípios pela API do IBGE
+- Grava lista de municipios do estado selecionado no banco de dados
 - Interface web para busca
 - Retorno com código do município
-- Geração de arquivo `municipios.txt` com os resultados
 - Preparado para ser executado localmente ou via Kubernetes
 
 ---
